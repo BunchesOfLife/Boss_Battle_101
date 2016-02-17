@@ -65,7 +65,7 @@ function bossBasicMovement(loop) {
 }
 
 function attackManager() {
-	if(attackCounter >= 700){
+	if(attackCounter >= 600){
 		attackCounter = 0;
 		attack.start();
 	} else {
