@@ -65,11 +65,7 @@ function bossBasicMovement(loop) {
 }
 
 function attackManager() {
-<<<<<<< HEAD
 	if(attackCounter >= 600){
-=======
-	if(attackCounter >= 700){
->>>>>>> refs/remotes/origin/master
 		attackCounter = 0;
 		attack.start();
 	} else {
