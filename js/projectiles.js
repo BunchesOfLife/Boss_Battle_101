@@ -22,7 +22,7 @@ function projectileSetup() {
 function bossBulletHit(player, bullet) {
 	bullet.kill();
 	
-	if (hitTimer == 0){
+	if (hitTimer <= 0){
 		playerHealth -= 10;
 		hitTimer = 50;
 	}

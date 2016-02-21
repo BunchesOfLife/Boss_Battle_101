@@ -37,7 +37,7 @@ gameState.prototype = {
     //game loop
     update: function () {
         game.physics.arcade.collide(player, ground);
-		game.physics.arcade.collide(player, boss1);
+		game.physics.arcade.overlap(player, boss1, bossCollide, null, this);
 		game.physics.arcade.overlap(player_projectiles, boss1, playerBulletHit, null, this);
 		game.physics.arcade.overlap(boss_projectiles, player, bossBulletHit, null, this);
 		

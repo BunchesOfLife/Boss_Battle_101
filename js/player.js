@@ -61,3 +61,11 @@ function playerRegen() {
 		}
 	}
 }
+
+function bossCollide() {
+	if (hitTimer <= 0){
+		playerHealth -= 30;
+		hitTimer = 100;
+	}
+	playerHealthText.text = "Player Health " + playerHealth;
+}
