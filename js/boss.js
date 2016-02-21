@@ -17,6 +17,7 @@ var attackSwitch = true;
 var attackCounter = 0;
 var attack;
 var basic;
+var spinOverride = false;
 
 function bossSetup() {
 	boss1 = game.add.sprite(bossGameStartX, bossGameStartY, 'boss');
@@ -65,11 +66,16 @@ function bossBasicMovement(loop) {
 }
 
 function attackManager() {
-	if(attackCounter >= 600){
+	if(attackCounter >= 500){
 		attackCounter = 0;
+		spinAmp = 4;
+		spinOverride = true;
 		attack.start();
 	} else {
-		attack.onComplete.add(function(){basic.start();});
+		attack.onComplete.add(function(){
+			basic.start();
+			spinAmp = 1;
+			spinOverride = false;});
 		attackCounter++;
 	}
 }
@@ -91,14 +97,16 @@ function bossFire() {
 	}
 }
 
-function bossSpin(override) {
+function bossSpin() {
 	var spinRate = 0.05;
-	if(!override) {
+	if(!spinOverride) {
 		if(boss1.body.position.x > player.body.position.x){
-			boss1.rotation -= spinRate * spinAmp;
+			boss1.rotation -= spinRate;
 		} else {
-			boss1.rotation += spinRate * spinAmp;
+			boss1.rotation += spinRate;
 		}
+	} else {
+		boss1.rotation += spinRate * spinAmp;
 	}
 }
 
