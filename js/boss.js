@@ -1,6 +1,8 @@
 var boss1;
 var bossGameStartX = 100;
 var bossGameStartY = 200;
+var bossBasic2StartX = 700;
+var bossBasic2StartY = 200;
 var bossBezierStartX;
 var bossBezierStartY;
 var bossBezierX1;
@@ -15,8 +17,9 @@ var bossHealthText;
 var count = 0;
 var attackSwitch = true;
 var attackCounter = 0;
-var attack;
-var basic;
+var slideAttackLeft, slideAttackRight;
+var basic1, basic2;
+var basicSwitch = true;
 var spinOverride = false;
 
 function bossSetup() {
@@ -28,7 +31,7 @@ function bossSetup() {
 	boss1.body.moves = false;
 }
 
-function bossBasicMovement(loop) {
+function bossBasicMovement1() {
 	bossBezierStartX = bossGameStartX;
 	bossBezierStartY = bossGameStartY;
 	bossBezierX1 = 100;
@@ -37,16 +40,19 @@ function bossBasicMovement(loop) {
 	bossBezierY2 = 600;
 	bossEndX = 700;
 	bossEndY = 200;
-	var tween1 = game.add.tween(boss1).to({
+	var tween = game.add.tween(boss1).to({
 			x: [bossBezierStartX, bossBezierX1, bossBezierX2, bossEndX], 
 			y: [bossBezierStartY, bossBezierY1, bossBezierY2, bossEndY]}, 
 			2000, Phaser.Easing.Sinusoidal.InOut).interpolation(function(v, k){
 				return Phaser.Math.bezierInterpolation(v, k);
      });
 	
-	
-	bossBezierStartX = bossEndX;
-	bossBezierStartY = bossEndY;
+	return tween;
+}
+
+function bossBasicMovement2() {
+	bossBezierStartX = bossBasic2StartX;
+	bossBezierStartY = bossBasic2StartY;
 	bossBezierX1 = 700;
 	bossBezierY1 = -400;
 	bossBezierX2 = 100;
@@ -54,30 +60,45 @@ function bossBasicMovement(loop) {
 	bossEndX = bossGameStartX;
 	bossEndY = bossGameStartY;
 	
-	var tween2 = game.add.tween(boss1).to({
+	var tween = game.add.tween(boss1).to({
 			x: [bossBezierStartX, bossBezierX1, bossBezierX2, bossEndX], 
 			y: [bossBezierStartY, bossBezierY1, bossBezierY2, bossEndY]}, 
 			2000, Phaser.Easing.Sinusoidal.InOut).interpolation(function(v, k){
 				return Phaser.Math.bezierInterpolation(v, k);
 	});
 	
-	tween1.chain(tween2).start();
-	return tween1;
+	return tween;
 }
 
 function attackManager() {
+	var attack = attackDecider();
 	if(attackCounter >= 500){
 		attackCounter = 0;
 		spinAmp = 4;
 		spinOverride = true;
 		attack.start();
-	} else {
 		attack.onComplete.add(function(){
-			basic.start();
+			if(basicSwitch){
+				basic1.start();
+			} else {
+				basic2.start();
+			}
 			spinAmp = 1;
 			spinOverride = false;});
+		basicSwitch = !basicSwitch;
+	} else {
 		attackCounter++;
 	}
+}
+
+function attackDecider() {
+	var attack;
+	if (!basicSwitch) {
+		attack = slideAttackLeft;
+	} else {
+		attack = slideAttackRight;
+	}
+	return attack;
 }
 
 function bossFire() {
@@ -110,9 +131,16 @@ function bossSpin() {
 	}
 }
 
-function slideAttack() {
+function slideAttackLeft() {
 	x = [74, 726, bossGameStartX];
 	y = [451, 451, bossGameStartY];
+	var tween = game.add.tween(boss1).to({x: x, y: y}, 2000);
+	return tween;
+}
+
+function slideAttackRight() {
+	x = [726, 74, bossBasic2StartX];
+	y = [451, 451, bossBasic2StartY];
 	var tween = game.add.tween(boss1).to({x: x, y: y}, 2000);
 	return tween;
 }

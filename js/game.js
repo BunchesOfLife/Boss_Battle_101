@@ -30,8 +30,10 @@ gameState.prototype = {
 		
 		bossSetup();
 		
-		basic = bossBasicMovement();
-		attack = slideAttack();
+		basic1 = bossBasicMovement1().start();
+		basic2 = bossBasicMovement2();
+		slideAttackLeft = slideAttackLeft();
+		slideAttackRight = slideAttackRight();
 	},
 
     //game loop
@@ -43,7 +45,7 @@ gameState.prototype = {
 		
 		playerControls();
 		
-		bossSpin(false);
+		bossSpin();
 		bossFire();
 		
 		attackManager();
