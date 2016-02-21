@@ -17,7 +17,6 @@ var bossHealthText;
 var count = 0;
 var attackSwitch = true;
 var attackCounter = 0;
-var slideAttackLeft, slideAttackRight;
 var basic1, basic2;
 var basicSwitch = true;
 var spinOverride = false;
@@ -76,8 +75,8 @@ function attackManager() {
 		attackCounter = 0;
 		spinAmp = 4;
 		spinOverride = true;
-		attack.start();
-		attack.onComplete.add(function(){
+		attack[0].start();
+		attack[attack.length-1].onComplete.add(function(){
 			if(basicSwitch){
 				basic1.start();
 			} else {
@@ -93,10 +92,19 @@ function attackManager() {
 
 function attackDecider() {
 	var attack;
+	var rand = Math.floor((Math.random() * 2) + 1);
 	if (!basicSwitch) {
-		attack = slideAttackLeft;
+		if(rand == 1) {
+			attack = slideAttackLeft();
+		} else if (rand == 2) {
+			attack = targetedSlam1();
+		}
 	} else {
-		attack = slideAttackRight;
+		if(rand == 1) {
+			attack = slideAttackRight();
+		} else if (rand == 2) {
+			attack = targetedSlam2();
+		}
 	}
 	return attack;
 }
@@ -135,12 +143,30 @@ function slideAttackLeft() {
 	x = [74, 726, bossGameStartX];
 	y = [451, 451, bossGameStartY];
 	var tween = game.add.tween(boss1).to({x: x, y: y}, 2000);
-	return tween;
+	return [tween];
 }
 
 function slideAttackRight() {
 	x = [726, 74, bossBasic2StartX];
 	y = [451, 451, bossBasic2StartY];
 	var tween = game.add.tween(boss1).to({x: x, y: y}, 2000);
-	return tween;
+	return [tween];
+}
+
+function targetedSlam1() {
+	x = [player.position.x, bossGameStartX];
+	y = [player.position.y, bossGameStartY];
+	var tween1 = game.add.tween(boss1).to({x: game.world.width/2, y: 74}, 1000);
+	var tween2 = game.add.tween(boss1).to({x: x, y: y}, 1000);
+	tween1.chain(tween2);
+	return [tween1, tween2];
+}
+
+function targetedSlam2() {
+	x = [player.position.x, bossBasic2StartX];
+	y = [player.position.y, bossBasic2StartY];
+	var tween1 = game.add.tween(boss1).to({x: game.world.width/2, y: 74}, 1000);
+	var tween2 = game.add.tween(boss1).to({x: x, y: y}, 1000);
+	tween1.chain(tween2);
+	return [tween1, tween2];
 }

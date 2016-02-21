@@ -32,8 +32,6 @@ gameState.prototype = {
 		
 		basic1 = bossBasicMovement1().start();
 		basic2 = bossBasicMovement2();
-		slideAttackLeft = slideAttackLeft();
-		slideAttackRight = slideAttackRight();
 	},
 
     //game loop
