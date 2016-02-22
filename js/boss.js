@@ -70,30 +70,26 @@ function attackManager() {
 	tuple = attackDecider();
 	attack = tuple[0];
 	id = tuple[1];
-	if(attackCounter >= 500){
-		attackCounter = 0;
-		spinAmp = 4;
-		spinOverride = true;
-		if (id == 3) {
-			starburstSwitch = true;
-		} else if (id == 4) {
-			targetedSwitch = true;
-		}
-		attack[0].start();
-		attack[attack.length-1].onComplete.add(function(){
-			if(basicSwitch){
-				basic1.start();
-			} else {
-				basic2.start();
-			}
-			spinAmp = 1;
-			spinOverride = false;
-			starburstSwitch = false;
-			targetedSwitch = false;});
-		basicSwitch = !basicSwitch;
-	} else {
-		attackCounter++;
+	attackCounter = 0;
+	spinAmp = 4;
+	spinOverride = true;
+	if (id == 3) {
+		starburstSwitch = true;
+	} else if (id == 4) {
+		targetedSwitch = true;
 	}
+	attack[0].start();
+	attack[attack.length-1].onComplete.add(function(){
+		if(basicSwitch){
+			basic1.start();
+		} else {
+			basic2.start();
+		}
+		spinAmp = 1;
+		spinOverride = false;
+		starburstSwitch = false;
+		targetedSwitch = false;});
+	basicSwitch = !basicSwitch;
 }
 
 function attackDecider() {

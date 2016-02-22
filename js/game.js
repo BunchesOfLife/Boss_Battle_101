@@ -32,6 +32,9 @@ gameState.prototype = {
 		
 		basic1 = bossBasicMovement1().start();
 		basic2 = bossBasicMovement2();
+		
+		basic1.onComplete.add(attackManager);
+		basic2.onComplete.add(attackManager);
 	},
 
     //game loop
@@ -42,11 +45,8 @@ gameState.prototype = {
 		game.physics.arcade.overlap(boss_projectiles, player, bossBulletHit, null, this);
 		
 		playerControls();
-		
 		bossSpin();
-		
 		starFire();
-		attackManager();
 		playerRegen();
     },
 };
