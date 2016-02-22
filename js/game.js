@@ -45,7 +45,7 @@ gameState.prototype = {
 		
 		bossSpin();
 		
-		starburstFire();
+		starFire();
 		attackManager();
 		playerRegen();
     },

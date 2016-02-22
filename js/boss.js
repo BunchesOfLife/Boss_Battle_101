@@ -33,7 +33,7 @@ function bossBasicMovement1() {
 	bossBezierStartX = bossGameStartX;
 	bossBezierStartY = bossGameStartY;
 	bossBezierX1 = 100;
-	bossBezierY1 = -400;
+	bossBezierY1 = -350;
 	bossBezierX2 = 700;
 	bossBezierY2 = 600;
 	bossEndX = 700;
@@ -51,7 +51,7 @@ function bossBasicMovement2() {
 	bossBezierStartX = bossBasic2StartX;
 	bossBezierStartY = bossBasic2StartY;
 	bossBezierX1 = 700;
-	bossBezierY1 = -400;
+	bossBezierY1 = -350;
 	bossBezierX2 = 100;
 	bossBezierY2 = 600;
 	bossEndX = bossGameStartX;
@@ -76,6 +76,8 @@ function attackManager() {
 		spinOverride = true;
 		if (id == 3) {
 			starburstSwitch = true;
+		} else if (id == 4) {
+			targetedSwitch = true;
 		}
 		attack[0].start();
 		attack[attack.length-1].onComplete.add(function(){
@@ -86,7 +88,8 @@ function attackManager() {
 			}
 			spinAmp = 1;
 			spinOverride = false;
-			starburstSwitch = false;});
+			starburstSwitch = false;
+			targetedSwitch = false;});
 		basicSwitch = !basicSwitch;
 	} else {
 		attackCounter++;
@@ -95,8 +98,8 @@ function attackManager() {
 
 function attackDecider() {
 	var attack;
-	var rand = Math.floor((Math.random() * 3) + 1);
-	//var rand = 3;
+	var rand = Math.floor((Math.random() * 4) + 1);
+	//var rand = 4;
 	if (!basicSwitch) {
 		if(rand == 1) {
 			attack = slideAttackLeft();
@@ -104,6 +107,8 @@ function attackDecider() {
 			attack = targetedSlam1();
 		} else if (rand == 3) {
 			attack = starburst1();
+		} else if (rand == 4) {
+			attack = targetedStars1();
 		}
 	} else {
 		if(rand == 1) {
@@ -112,6 +117,8 @@ function attackDecider() {
 			attack = targetedSlam2();
 		} else if (rand == 3) {
 			attack = starburst2();
+		} else if (rand == 4) {
+			attack = targetedStars2();
 		}
 	}
 	return [attack, rand];
