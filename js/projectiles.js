@@ -1,7 +1,7 @@
 var player_projectiles;
 var playerAmmoCap = 50;
 var boss_projectiles;
-var bossAmmoCap = 20;
+var bossAmmoCap = 100;
 
 function projectileSetup() {
 	player_projectiles = game.add.group();

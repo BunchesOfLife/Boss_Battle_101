@@ -14,7 +14,6 @@ var bossEndY;
 var spinAmp = 1;
 var bossHealth = 2000;
 var bossHealthText;
-var count = 0;
 var attackSwitch = true;
 var attackCounter = 0;
 var basic1, basic2;
@@ -45,7 +44,6 @@ function bossBasicMovement1() {
 			2000, Phaser.Easing.Sinusoidal.InOut).interpolation(function(v, k){
 				return Phaser.Math.bezierInterpolation(v, k);
      });
-	
 	return tween;
 }
 
@@ -58,23 +56,27 @@ function bossBasicMovement2() {
 	bossBezierY2 = 600;
 	bossEndX = bossGameStartX;
 	bossEndY = bossGameStartY;
-	
 	var tween = game.add.tween(boss1).to({
 			x: [bossBezierStartX, bossBezierX1, bossBezierX2, bossEndX], 
 			y: [bossBezierStartY, bossBezierY1, bossBezierY2, bossEndY]}, 
 			2000, Phaser.Easing.Sinusoidal.InOut).interpolation(function(v, k){
 				return Phaser.Math.bezierInterpolation(v, k);
 	});
-	
 	return tween;
 }
 
 function attackManager() {
-	var attack = attackDecider();
+	var tuple, attack, id;
+	tuple = attackDecider();
+	attack = tuple[0];
+	id = tuple[1];
 	if(attackCounter >= 500){
 		attackCounter = 0;
 		spinAmp = 4;
 		spinOverride = true;
+		if (id == 3) {
+			starburstSwitch = true;
+		}
 		attack[0].start();
 		attack[attack.length-1].onComplete.add(function(){
 			if(basicSwitch){
@@ -83,7 +85,8 @@ function attackManager() {
 				basic2.start();
 			}
 			spinAmp = 1;
-			spinOverride = false;});
+			spinOverride = false;
+			starburstSwitch = false;});
 		basicSwitch = !basicSwitch;
 	} else {
 		attackCounter++;
@@ -92,38 +95,26 @@ function attackManager() {
 
 function attackDecider() {
 	var attack;
-	var rand = Math.floor((Math.random() * 2) + 1);
+	var rand = Math.floor((Math.random() * 3) + 1);
+	//var rand = 3;
 	if (!basicSwitch) {
 		if(rand == 1) {
 			attack = slideAttackLeft();
 		} else if (rand == 2) {
 			attack = targetedSlam1();
+		} else if (rand == 3) {
+			attack = starburst1();
 		}
 	} else {
 		if(rand == 1) {
 			attack = slideAttackRight();
 		} else if (rand == 2) {
 			attack = targetedSlam2();
+		} else if (rand == 3) {
+			attack = starburst2();
 		}
 	}
-	return attack;
-}
-
-function bossFire() {
-	count += 1;
-	if(count >= 25){
-		var bullet = boss_projectiles.getFirstExists(false);
-		if (bullet) {
-			var x = boss1.x
-			var y = boss1.y
-			
-			bullet.reset(x, y);
-			bullet.lifespan = 1500;
-			
-			game.physics.arcade.velocityFromRotation(angleToPoint(x, y, player.position.x, player.position.y), 500, bullet.body.velocity);
-		}
-		count = 0;
-	}
+	return [attack, rand];
 }
 
 function bossSpin() {
@@ -135,38 +126,10 @@ function bossSpin() {
 			boss1.rotation += spinRate;
 		}
 	} else {
-		boss1.rotation += spinRate * spinAmp;
+		if(basicSwitch){
+			boss1.rotation += spinRate * spinAmp;
+		} else {
+			boss1.rotation -= spinRate * spinAmp;
+		}
 	}
-}
-
-function slideAttackLeft() {
-	x = [74, 726, bossGameStartX];
-	y = [451, 451, bossGameStartY];
-	var tween = game.add.tween(boss1).to({x: x, y: y}, 2000);
-	return [tween];
-}
-
-function slideAttackRight() {
-	x = [726, 74, bossBasic2StartX];
-	y = [451, 451, bossBasic2StartY];
-	var tween = game.add.tween(boss1).to({x: x, y: y}, 2000);
-	return [tween];
-}
-
-function targetedSlam1() {
-	x = [player.position.x, bossGameStartX];
-	y = [player.position.y, bossGameStartY];
-	var tween1 = game.add.tween(boss1).to({x: game.world.width/2, y: 74}, 1000);
-	var tween2 = game.add.tween(boss1).to({x: x, y: y}, 1000);
-	tween1.chain(tween2);
-	return [tween1, tween2];
-}
-
-function targetedSlam2() {
-	x = [player.position.x, bossBasic2StartX];
-	y = [player.position.y, bossBasic2StartY];
-	var tween1 = game.add.tween(boss1).to({x: game.world.width/2, y: 74}, 1000);
-	var tween2 = game.add.tween(boss1).to({x: x, y: y}, 1000);
-	tween1.chain(tween2);
-	return [tween1, tween2];
 }
