@@ -12,10 +12,9 @@ var bossBezierY2;
 var bossEndX;
 var bossEndY;
 var spinAmp = 1;
-var bossHealth = 2000;
+var bossHealth = 3000;
 var bossHealthText;
 var attackSwitch = true;
-var attackCounter = 0;
 var basic1, basic2;
 var basicSwitch = true;
 var spinOverride = false;
@@ -70,7 +69,6 @@ function attackManager() {
 	tuple = attackDecider();
 	attack = tuple[0];
 	id = tuple[1];
-	attackCounter = 0;
 	spinAmp = 4;
 	spinOverride = true;
 	if (id == 3) {
