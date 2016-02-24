@@ -22,12 +22,12 @@ function targetedSlam() {
 		x = [player.position.x, bossGameStartX];
 		y = [player.position.y, bossGameStartY];
 		tween1 = game.add.tween(boss1).to({x: game.world.width/2, y: 74}, 1000);
-		tween2 = game.add.tween(boss1).to({x: x, y: y}, 1000);
+		tween2 = game.add.tween(boss1).to({x: x, y: y}, 750);
 	} else {
 		x = [player.position.x, bossBasic2StartX];
 		y = [player.position.y, bossBasic2StartY];
 		tween1 = game.add.tween(boss1).to({x: game.world.width/2, y: 74}, 1000);
-		tween2 = game.add.tween(boss1).to({x: x, y: y}, 1000);
+		tween2 = game.add.tween(boss1).to({x: x, y: y}, 750);
 	}
 	tween1.chain(tween2);
 	return [tween1, tween2];
