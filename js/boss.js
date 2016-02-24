@@ -94,26 +94,14 @@ function attackDecider() {
 	var attack;
 	var rand = Math.floor((Math.random() * 4) + 1);
 	//var rand = 4;
-	if (!basicSwitch) {
-		if(rand == 1) {
-			attack = slideAttackLeft();
-		} else if (rand == 2) {
-			attack = targetedSlam1();
-		} else if (rand == 3) {
-			attack = starburst1();
-		} else if (rand == 4) {
-			attack = targetedStars1();
-		}
-	} else {
-		if(rand == 1) {
-			attack = slideAttackRight();
-		} else if (rand == 2) {
-			attack = targetedSlam2();
-		} else if (rand == 3) {
-			attack = starburst2();
-		} else if (rand == 4) {
-			attack = targetedStars2();
-		}
+	if(rand == 1) {
+		attack = slideAttack();
+	} else if (rand == 2) {
+		attack = targetedSlam();
+	} else if (rand == 3) {
+		attack = starburst();
+	} else if (rand == 4) {
+		attack = targetedStars();
 	}
 	return [attack, rand];
 }
