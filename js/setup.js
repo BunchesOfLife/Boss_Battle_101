@@ -16,6 +16,7 @@ var game = new Phaser.Game(gameProperties.screenWidth, gameProperties.screenHeig
 var ground;
 var platforms;
 var style = { font: "16px Arial", fill: "#ffffff", align: "right" };
+var startTime, endTime;
 
 //define keyboard and mouse inputs
 function initKeyboard() {

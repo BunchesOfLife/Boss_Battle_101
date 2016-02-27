@@ -13,10 +13,7 @@ startState.prototype.create = function() {
 	game.input.onDown.addOnce(function() {game.state.start('game');}, this);
 }
 
-startState.prototype.update = function() {
-	
-}
+startState.prototype.update = function() {}
 
-//links the name 'game' to the gameState
 game.state.add('start', startState);
 game.state.start('start');

@@ -1,5 +1,5 @@
 var player;
-var playerHealth = 300;
+var playerHealth;
 var playerHealthText;
 var hitTimer = 0;
 var regenTimer = 0;

@@ -12,7 +12,7 @@ var bossBezierY2;
 var bossEndX;
 var bossEndY;
 var spinAmp = 1;
-var bossHealth = 3000;
+var bossHealth;
 var bossHealthText;
 var attackSwitch = true;
 var basic1, basic2;

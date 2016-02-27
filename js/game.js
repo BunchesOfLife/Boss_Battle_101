@@ -1,7 +1,5 @@
-/**
- *  
+/** 
  *  Author: Brady Murren
- *  
  */
  
 // mainState
@@ -15,6 +13,12 @@ gameState.prototype = {
 		game.load.image('boss', 'resources/boss.png');
 		game.load.image('boss_projectile', 'resources/boss_projectile.png');
     },
+	
+	init: function () {
+		startTime = game.time.now;
+		playerHealth = 300;
+		bossHealth = 3000;
+	},
     
     //constructor
     create: function () {
@@ -48,6 +52,11 @@ gameState.prototype = {
 		bossSpin();
 		starFire();
 		playerRegen();
+		
+		if(playerHealth <= 0 || bossHealth <= 0) {
+			endTime = game.time.now;
+			game.state.start('end');
+		}
     },
 };
 
