@@ -1,7 +1,8 @@
 var count = 0;
-var starburstSwitch = false;
+var fastBurstSwitch = false;
 var targetedSwitch = false;
 var starfallSwitch = false;
+var slowBurstSwitch = false;
 
 function slideAttack() {
 	var tween;
@@ -137,7 +138,7 @@ function edgeMove() {
 	return [tween];
 }
 
-function zigzag() {
+function zigzagBurst() {
 	var tween;
 	if (!basicSwitch) {
 		x = [100, 200, 300, 400, 500, 600, 700, bossGameStartX];
@@ -146,11 +147,11 @@ function zigzag() {
 		x = [700, 600, 500, 400, 300, 200, 100, bossBasic2StartX];
 		y = [0, 600, 0, 600, 0, 600, 0, bossBasic2StartY];
 	}
-	tween = game.add.tween(boss1).to({x: x, y: y}, 7000);
+	tween = game.add.tween(boss1).to({x: x, y: y}, 8000);
 	return [tween];
 }
 
-function xBurst() {
+function xMove() {
 	var tween;
 	if (!basicSwitch) {
 		x = [0, 800, 800, 0, 0, bossGameStartX];
@@ -164,9 +165,26 @@ function xBurst() {
 }
 
 function starFire() {
-	if(starburstSwitch){
+	if(fastBurstSwitch){
 		count += 1;
 		if(count >= 3){
+			var bullet = boss_projectiles.getFirstExists(false);
+			if (bullet) {
+				var x = boss1.x
+				var y = boss1.y
+				
+				bullet.reset(x, y);
+				bullet.lifespan = 1500;
+				
+				game.physics.arcade.velocityFromRotation(boss1.rotation, 500, bullet.body.velocity);
+			}
+			count = 0;
+		}
+	}
+	
+	if(slowBurstSwitch){
+		count += 1;
+		if(count >= 8){
 			var bullet = boss_projectiles.getFirstExists(false);
 			if (bullet) {
 				var x = boss1.x
