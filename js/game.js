@@ -51,9 +51,5 @@ gameState.prototype = {
     },
 };
 
-//'gameDiv' is the id in index.html
-var game = new Phaser.Game(gameProperties.screenWidth, gameProperties.screenHeight, Phaser.AUTO, 'gameDiv');
-
 //links the name 'game' to the gameState
-game.state.add(states.game, gameState);
-game.state.start(states.game);
+game.state.add('game', gameState);
