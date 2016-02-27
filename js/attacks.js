@@ -1,8 +1,8 @@
 var count = 0;
-var fastBurstSwitch = false;
-var targetedSwitch = false;
-var starfallSwitch = false;
-var slowBurstSwitch = false;
+var fastBurstSwitch;
+var targetedSwitch;
+var starfallSwitch;
+var slowBurstSwitch;
 
 function slideAttack() {
 	var tween;

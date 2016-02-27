@@ -18,6 +18,11 @@ gameState.prototype = {
 		startTime = game.time.now;
 		playerHealth = 300;
 		bossHealth = 3000;
+		fastBurstSwitch = false;
+		targetedSwitch = false;
+		starfallSwitch = false;
+		slowBurstSwitch = false;
+		spinOverride = false;
 	},
     
     //constructor
