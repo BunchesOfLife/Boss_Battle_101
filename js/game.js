@@ -55,6 +55,8 @@ gameState.prototype = {
 		
 		if(playerHealth <= 0 || bossHealth <= 0) {
 			endTime = game.time.now;
+			if (playerHealth < 0) {playerHealth = 0};
+			if (bossHealth < 0) {bossHealth = 0};
 			game.state.start('end');
 		}
     },
