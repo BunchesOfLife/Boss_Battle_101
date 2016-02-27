@@ -53,6 +53,7 @@ gameState.prototype = {
 		starFire();
 		playerRegen();
 		
+		//end the game at win or loss
 		if(playerHealth <= 0 || bossHealth <= 0) {
 			endTime = game.time.now;
 			if (playerHealth < 0) {playerHealth = 0};

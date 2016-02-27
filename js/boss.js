@@ -71,10 +71,12 @@ function attackManager() {
 	id = tuple[1];
 	spinAmp = 4;
 	spinOverride = true;
-	if (id == 3) {
+	if (id == 3 || id == 5 || id == 10) {
 		starburstSwitch = true;
-	} else if (id == 4) {
+	} else if (id == 4 || id == 8) {
 		targetedSwitch = true;
+	} else if (id == 6) {
+		starfallSwitch = true;
 	}
 	attack[0].start();
 	attack[attack.length-1].onComplete.add(function(){
@@ -86,14 +88,15 @@ function attackManager() {
 		spinAmp = 1;
 		spinOverride = false;
 		starburstSwitch = false;
-		targetedSwitch = false;});
+		targetedSwitch = false;
+		starfallSwitch = false;});
 	basicSwitch = !basicSwitch;
 }
 
 function attackDecider() {
 	var attack;
-	var rand = Math.floor((Math.random() * 4) + 1);
-	//var rand = 4;
+	var rand = randomInRange(10);
+	//var rand = 10;
 	if(rand == 1) {
 		attack = slideAttack();
 	} else if (rand == 2) {
@@ -102,6 +105,18 @@ function attackDecider() {
 		attack = starburst();
 	} else if (rand == 4) {
 		attack = targetedStars();
+	} else if (rand == 5) {
+		attack = offScreenStarburst();
+	} else if (rand == 6) {
+		attack = starfall();
+	} else if (rand == 7) {
+		attack = randomMove();
+	} else if (rand == 8) {
+		attack = edgeMove();
+	} else if (rand == 9) {
+		attack = zigzag();
+	} else if (rand == 10) {
+		attack = xBurst();
 	}
 	return [attack, rand];
 }
