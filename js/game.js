@@ -1,6 +1,5 @@
 /**
  *  
- *  Author: Brady Murren
  *  
  */
  
