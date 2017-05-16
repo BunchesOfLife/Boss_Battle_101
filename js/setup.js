@@ -3,10 +3,6 @@ var gameProperties = {
     screenHeight: 600,
 };
 
-var states = {
-    game: "game",
-};
-
 var gameState = function(){
     this.key_left;
 	this.key_right;
@@ -14,9 +10,13 @@ var gameState = function(){
 	this.key_fire;
 };
 
+//'gameDiv' is the id in index.html
+var game = new Phaser.Game(gameProperties.screenWidth, gameProperties.screenHeight, Phaser.AUTO, 'gameDiv');
+
 var ground;
 var platforms;
 var style = { font: "16px Arial", fill: "#ffffff", align: "right" };
+var startTime, endTime;
 
 //define keyboard and mouse inputs
 function initKeyboard() {

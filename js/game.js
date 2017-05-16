@@ -1,7 +1,7 @@
 /**
- *  
+ * 
+ 
  *  Author: Nora Murren
- *  
  */
  
 // mainState
@@ -15,6 +15,17 @@ gameState.prototype = {
 		game.load.image('boss', 'resources/boss.png');
 		game.load.image('boss_projectile', 'resources/boss_projectile.png');
     },
+	
+	init: function () {
+		startTime = game.time.now;
+		playerHealth = 300;
+		bossHealth = 3000;
+		fastBurstSwitch = false;
+		targetedSwitch = false;
+		starfallSwitch = false;
+		slowBurstSwitch = false;
+		spinOverride = false;
+	},
     
     //constructor
     create: function () {
@@ -30,31 +41,34 @@ gameState.prototype = {
 		
 		bossSetup();
 		
-		basic = bossBasicMovement();
-		attack = slideAttack();
+		basic1 = bossBasicMovement1().start();
+		basic2 = bossBasicMovement2();
+		
+		basic1.onComplete.add(attackManager);
+		basic2.onComplete.add(attackManager);
 	},
 
     //game loop
     update: function () {
         game.physics.arcade.collide(player, ground);
-		game.physics.arcade.collide(player, boss1);
+		game.physics.arcade.overlap(player, boss1, bossCollide, null, this);
 		game.physics.arcade.overlap(player_projectiles, boss1, playerBulletHit, null, this);
 		game.physics.arcade.overlap(boss_projectiles, player, bossBulletHit, null, this);
 		
 		playerControls();
-		
-		bossSpin(false);
-		bossFire();
-		
-		attackManager();
-		
+		bossSpin();
+		starFire();
 		playerRegen();
+		
+		//end the game at win or loss
+		if(playerHealth <= 0 || bossHealth <= 0) {
+			endTime = game.time.now;
+			if (playerHealth < 0) {playerHealth = 0};
+			if (bossHealth < 0) {bossHealth = 0};
+			game.state.start('end');
+		}
     },
 };
 
-//'gameDiv' is the id in index.html
-var game = new Phaser.Game(gameProperties.screenWidth, gameProperties.screenHeight, Phaser.AUTO, 'gameDiv');
-
 //links the name 'game' to the gameState
-game.state.add(states.game, gameState);
-game.state.start(states.game);
+game.state.add('game', gameState);
