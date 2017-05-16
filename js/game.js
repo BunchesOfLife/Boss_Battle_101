@@ -1,5 +1,7 @@
-/** 
- *  Author: Brady Murren
+/**
+ * 
+ 
+ *  Author: Nora Murren
  */
  
 // mainState
