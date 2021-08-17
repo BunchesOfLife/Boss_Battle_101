@@ -18,7 +18,7 @@ gameState.prototype = {
 	init: function () {
 		startTime = game.time.now;
 		playerHealth = 300;
-		bossHealth = 100;
+		bossHealth = 3000;
 		fastBurstSwitch = false;
 		targetedSwitch = false;
 		starfallSwitch = false;
